@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springdoc.core.annotations.RouterOperation;
 import org.springframework.context.annotation.Bean;
@@ -76,11 +77,17 @@ public class RouterRest {
             beanClass = SaveProductUseCase.class, method = RequestMethod.POST,
             beanMethod = "apply",
             operation = @Operation(operationId = "saveProducts", tags = "Products usecases",
+                    parameters = {
+                            @Parameter(name = "product", in = ParameterIn.PATH, schema = @Schema(implementation = Product.class))
+                    },
                     responses = {
                             @ApiResponse(responseCode = "201", description = "Success",
                                     content = @Content(schema = @Schema(implementation = Product.class))),
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
-                    }))
+                    },
+                    requestBody = @RequestBody(required = true, description = "Save a Product",
+                            content = @Content(schema = @Schema(implementation = Product.class)))
+            ))
     public RouterFunction<ServerResponse> saveProduct(SaveProductUseCase saveProductUseCase){
         return route(POST("/products").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(Product.class)
@@ -103,7 +110,10 @@ public class RouterRest {
                             @ApiResponse(responseCode = "201", description = "Success",
                                     content = @Content (schema = @Schema(implementation = Product.class))),
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
-                    }))
+                    },
+                    requestBody = @RequestBody(required = true, description = "Update a Product",
+                            content = @Content(schema = @Schema(implementation = Product.class)))
+            ))
     public RouterFunction<ServerResponse> updateProduct (UpdateProductUseCase updateProductUseCase){
         return route(PUT("/products/{productId}").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(Product.class)
