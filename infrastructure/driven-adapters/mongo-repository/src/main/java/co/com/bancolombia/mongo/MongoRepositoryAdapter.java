@@ -26,8 +26,13 @@ public class MongoRepositoryAdapter implements ProductGateway {
     }
 
     @Override
-    public Mono<Product> getProductById(String ProductId) {
-        return null;
+    public Mono<Product> getProductById(String productId) {
+        return this.repository
+                .findById(productId)
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("There is not " +
+                        "Product with id: " + productId)))
+                .map(productData -> mapper.map(productData, Product.class));
+
     }
 
     @Override
@@ -39,8 +44,16 @@ public class MongoRepositoryAdapter implements ProductGateway {
     }
 
     @Override
-    public Mono<Product> updateProduct(String ProductId, Product Product) {
-        return null;
+    public Mono<Product> updateProduct(String productId, Product product) {
+        return this.repository
+                .findById(productId)
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("There is not " +
+                        "product with id: " + productId)))
+                .flatMap(productData -> {
+                    product.setId(productData.getId());
+                    return repository.save(mapper.map(product, ProductData.class));
+                })
+                .map(productData -> mapper.map(productData, Product.class));
     }
 
     @Override
