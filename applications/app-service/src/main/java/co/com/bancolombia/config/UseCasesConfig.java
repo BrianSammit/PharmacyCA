@@ -1,11 +1,11 @@
 package co.com.bancolombia.config;
 
 import co.com.bancolombia.model.product.gateways.ProductGateway;
-import co.com.bancolombia.usecase.saveproduct.SaveProductUseCase;
+import co.com.bancolombia.usecase.product.getallproducts.GetAllProductsUseCase;
+import co.com.bancolombia.usecase.product.saveproduct.SaveProductUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
 
 @Configuration
 @ComponentScan(basePackages = "co.com.bancolombia.usecase")
@@ -14,10 +14,10 @@ import org.springframework.context.annotation.FilterType;
 //        },
 //        useDefaultFilters = false)
 public class UseCasesConfig {
-//        @Bean
-//        public GetAllProductsUseCase getAllProductsUseCase(ProductRepository gateway){
-//                return new GetAllProductsUseCase(gateway);
-//        }
+        @Bean
+        public GetAllProductsUseCase getAllProductsUseCase(ProductGateway gateway){
+                return new GetAllProductsUseCase(gateway);
+        }
 
 //        @Bean
 //        public GetProductByIdUseCase getProductByIDUseCase(ProductRepository gateway){

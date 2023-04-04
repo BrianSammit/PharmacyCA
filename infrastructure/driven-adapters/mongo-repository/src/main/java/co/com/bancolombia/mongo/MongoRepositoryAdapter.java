@@ -19,7 +19,10 @@ public class MongoRepositoryAdapter implements ProductGateway {
 
     @Override
     public Flux<Product> getAllProducts() {
-        return null;
+        return this.repository
+                .findAll()
+                .switchIfEmpty(Flux.empty())
+                .map(productData -> mapper.map(productData, Product.class));
     }
 
     @Override
