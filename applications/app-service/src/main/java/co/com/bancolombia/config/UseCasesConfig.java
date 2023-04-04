@@ -1,6 +1,7 @@
 package co.com.bancolombia.config;
 
 import co.com.bancolombia.model.product.gateways.ProductGateway;
+import co.com.bancolombia.usecase.product.deleteproduct.DeleteProductUseCase;
 import co.com.bancolombia.usecase.product.getallproducts.GetAllProductsUseCase;
 import co.com.bancolombia.usecase.product.getproductbyid.GetProductByIdUseCase;
 import co.com.bancolombia.usecase.product.saveproduct.SaveProductUseCase;
@@ -36,8 +37,8 @@ public class UseCasesConfig {
                 return new UpdateProductUseCase(gateway);
         }
 
-//        @Bean
-//        public DeleteProductUseCase deleteProductUseCase(ProductRepository gateway){
-//                return new DeleteProductUseCase(gateway);
-//        }
+        @Bean
+        public DeleteProductUseCase deleteProductUseCase(ProductGateway gateway){
+                return new DeleteProductUseCase(gateway);
+        }
 }

@@ -1,6 +1,7 @@
 package co.com.bancolombia.api;
 
 import co.com.bancolombia.model.product.Product;
+import co.com.bancolombia.usecase.product.deleteproduct.DeleteProductUseCase;
 import co.com.bancolombia.usecase.product.getallproducts.GetAllProductsUseCase;
 import co.com.bancolombia.usecase.product.getproductbyid.GetProductByIdUseCase;
 import co.com.bancolombia.usecase.product.saveproduct.SaveProductUseCase;
@@ -74,7 +75,7 @@ public class RouterRest {
             MediaType.APPLICATION_JSON_VALUE},
             beanClass = SaveProductUseCase.class, method = RequestMethod.POST,
             beanMethod = "apply",
-            operation = @Operation(operationId = "saveProducts", tags = "Product usecases",
+            operation = @Operation(operationId = "saveProducts", tags = "Products usecases",
                     responses = {
                             @ApiResponse(responseCode = "201", description = "Success",
                                     content = @Content(schema = @Schema(implementation = Product.class))),
@@ -114,6 +115,29 @@ public class RouterRest {
                                 .onErrorResume(throwable -> ServerResponse.status(HttpStatus.BAD_REQUEST)
                                         .bodyValue(throwable.getMessage()))
                         )
+        );
+    }
+
+    @Bean
+    @RouterOperation(path = "/products/{productId}", produces = {
+            MediaType.APPLICATION_JSON_VALUE},
+            beanClass = DeleteProductUseCase.class, method = RequestMethod.DELETE,
+            beanMethod = "apply",
+            operation = @Operation(operationId = "deleteProductById", tags = "Products usecases",
+                    parameters = {@Parameter(name = "productId", description = "product Id", required= true, in = ParameterIn.PATH)},
+                    responses = {
+                            @ApiResponse(responseCode = "200", description = "Success",
+                                    content = @Content (schema = @Schema(implementation = Product.class))),
+                            @ApiResponse(responseCode = "404", description = "Not Found")
+                    }))
+    public RouterFunction<ServerResponse> deleteProduct (DeleteProductUseCase deleteProductUseCase){
+        return route(DELETE("/products/{productId}"),
+                request -> deleteProductUseCase.apply(request.pathVariable("productId"))
+                        .thenReturn(ServerResponse.ok()
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .bodyValue("Product deleted"))
+                        .flatMap(serverResponseMono -> serverResponseMono)
+                        .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(throwable.getMessage()))
         );
     }
 }

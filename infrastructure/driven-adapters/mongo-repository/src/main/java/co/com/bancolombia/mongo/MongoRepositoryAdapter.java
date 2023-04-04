@@ -57,8 +57,12 @@ public class MongoRepositoryAdapter implements ProductGateway {
     }
 
     @Override
-    public Mono<Void> deleteProduct(String ProductId) {
-        return null;
+    public Mono<Void> deleteProduct(String productId) {
+        return this.repository
+                .findById(productId)
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("There is not " +
+                        "product with id: " + productId)))
+                .flatMap(userData -> this.repository.deleteById(userData.getId()));
     }
 }
 
