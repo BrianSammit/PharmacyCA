@@ -5,6 +5,7 @@ import co.com.bancolombia.usecase.product.deleteproduct.DeleteProductUseCase;
 import co.com.bancolombia.usecase.product.getallproducts.GetAllProductsUseCase;
 import co.com.bancolombia.usecase.product.getproductbycategory.GetProductByCategoryUseCase;
 import co.com.bancolombia.usecase.product.getproductbyid.GetProductByIdUseCase;
+import co.com.bancolombia.usecase.product.getproductbyname.GetProductByNameUseCase;
 import co.com.bancolombia.usecase.product.saveproduct.SaveProductUseCase;
 import co.com.bancolombia.usecase.product.updateproduct.UpdateProductUseCase;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +32,11 @@ public class UseCasesConfig {
         @Bean
         public GetProductByCategoryUseCase getProductByCategoryUseCase(ProductGateway gateway){
                 return new GetProductByCategoryUseCase(gateway);
+        }
+
+        @Bean
+        public GetProductByNameUseCase getProductByNameUseCase(ProductGateway gateway){
+                return new GetProductByNameUseCase(gateway);
         }
 
         @Bean

@@ -45,6 +45,15 @@ public class MongoRepositoryAdapter implements ProductGateway {
     }
 
     @Override
+    public Flux<Product> getProductByName(String productName) {
+        return this.repository
+                .findAll()
+                .switchIfEmpty(Flux.empty())
+                .filter(productData -> productData.getName().toLowerCase().startsWith(productName.toLowerCase()))
+                .map(productData -> mapper.map(productData, Product.class));
+    }
+
+    @Override
     public Mono<Product> saveProduct( Product product) {
         return this.repository
                 .save(mapper.map(product, ProductData.class))
