@@ -3,6 +3,7 @@ package co.com.bancolombia.config;
 import co.com.bancolombia.model.product.gateways.ProductGateway;
 import co.com.bancolombia.usecase.product.deleteproduct.DeleteProductUseCase;
 import co.com.bancolombia.usecase.product.getallproducts.GetAllProductsUseCase;
+import co.com.bancolombia.usecase.product.getproductbycategory.GetProductByCategoryUseCase;
 import co.com.bancolombia.usecase.product.getproductbyid.GetProductByIdUseCase;
 import co.com.bancolombia.usecase.product.saveproduct.SaveProductUseCase;
 import co.com.bancolombia.usecase.product.updateproduct.UpdateProductUseCase;
@@ -25,6 +26,11 @@ public class UseCasesConfig {
         @Bean
         public GetProductByIdUseCase getProductByIDUseCase(ProductGateway gateway){
                 return new GetProductByIdUseCase(gateway);
+        }
+
+        @Bean
+        public GetProductByCategoryUseCase getProductByCategoryUseCase(ProductGateway gateway){
+                return new GetProductByCategoryUseCase(gateway);
         }
 
         @Bean

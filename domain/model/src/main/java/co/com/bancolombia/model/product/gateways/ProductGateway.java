@@ -8,11 +8,13 @@ public interface ProductGateway {
 
     Flux<Product> getAllProducts();
 
-    Mono<Product> getProductById(String ProductId);
+    Mono<Product> getProductById(String productId);
 
-    Mono<Product> saveProduct( Product Product);
+    Flux<Product> getProductByCategory(String productCategory);
 
-    Mono<Product> updateProduct( String ProductId, Product Product);
+    Mono<Product> saveProduct( Product product);
 
-    Mono<Void> deleteProduct( String ProductId);
+    Mono<Product> updateProduct( String productId, Product product);
+
+    Mono<Void> deleteProduct( String productId);
 }

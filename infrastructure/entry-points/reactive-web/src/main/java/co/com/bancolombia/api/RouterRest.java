@@ -3,6 +3,7 @@ package co.com.bancolombia.api;
 import co.com.bancolombia.model.product.Product;
 import co.com.bancolombia.usecase.product.deleteproduct.DeleteProductUseCase;
 import co.com.bancolombia.usecase.product.getallproducts.GetAllProductsUseCase;
+import co.com.bancolombia.usecase.product.getproductbycategory.GetProductByCategoryUseCase;
 import co.com.bancolombia.usecase.product.getproductbyid.GetProductByIdUseCase;
 import co.com.bancolombia.usecase.product.saveproduct.SaveProductUseCase;
 import co.com.bancolombia.usecase.product.updateproduct.UpdateProductUseCase;
@@ -67,6 +68,29 @@ public class RouterRest {
                         .flatMap(product -> ServerResponse.ok()
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .bodyValue(product))
+                        .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(throwable.getMessage()))
+        );
+    }
+
+
+    @Bean
+    @RouterOperation(path = "/products/category/{productCategory}", produces = {
+            MediaType.APPLICATION_JSON_VALUE},
+            beanClass = GetProductByCategoryUseCase.class,
+            method = RequestMethod.GET,
+            beanMethod = "apply",
+            operation = @Operation(operationId = "getProductByCategory", tags = "Products usecases",
+                    parameters = {@Parameter(name = "productCategory", description = "product Category", required= true, in = ParameterIn.PATH)},
+                    responses = {
+                            @ApiResponse(responseCode = "200", description = "Success",
+                                    content = @Content (schema = @Schema(implementation = Product.class))),
+                            @ApiResponse(responseCode = "404", description = "Not Found")
+                    }))
+    public RouterFunction<ServerResponse> getProductsByCategory (GetProductByCategoryUseCase getProductByCategoryUseCase){
+        return route(GET("/products/category/{productCategory}"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(getProductByCategoryUseCase.apply(request.pathVariable("productCategory")), Product.class))
                         .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(throwable.getMessage()))
         );
     }
