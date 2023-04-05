@@ -54,6 +54,15 @@ public class MongoRepositoryAdapter implements ProductGateway {
     }
 
     @Override
+    public Flux<Product> getProductByPrice(Double productPrice) {
+        return this.repository
+                .findAll()
+                .switchIfEmpty(Flux.empty())
+                .filter(productData -> productData.getPrice().equals(productPrice) )
+                .map(productData -> mapper.map(productData, Product.class));
+    }
+
+    @Override
     public Mono<Product> saveProduct( Product product) {
         return this.repository
                 .save(mapper.map(product, ProductData.class))

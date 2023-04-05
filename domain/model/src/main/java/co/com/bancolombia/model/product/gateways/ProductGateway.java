@@ -14,6 +14,8 @@ public interface ProductGateway {
 
     Flux<Product> getProductByName(String productName);
 
+    Flux<Product> getProductByPrice(Double productPrice);
+
     Mono<Product> saveProduct( Product product);
 
     Mono<Product> updateProduct( String productId, Product product);
