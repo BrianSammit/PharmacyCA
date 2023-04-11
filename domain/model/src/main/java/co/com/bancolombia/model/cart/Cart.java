@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -18,6 +15,6 @@ import java.util.UUID;
 @Builder(toBuilder = true)
 public class Cart {
     private String id = UUID.randomUUID().toString().substring(0,10);
-    private List<Product> products = new ArrayList<Product>();
+    private Set<Product> products = new HashSet<Product>();
     private Double totalPrice;
 }
