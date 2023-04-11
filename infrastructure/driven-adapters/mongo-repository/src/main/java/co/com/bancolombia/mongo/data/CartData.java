@@ -14,13 +14,10 @@ public class CartData {
 
     @Id
     private String id = UUID.randomUUID().toString().substring(0,10);
-    private List<ProductData> products = new ArrayList<>();
-
+    private Set<ProductData> products = new HashSet<>();
     private Double totalPrice;
 
     public CartData(Double totalPrice) {
-        this.id = UUID.randomUUID().toString().substring(0,10);
-        this.products = new ArrayList<>();
         if (this.products.isEmpty()){
             this.totalPrice = 0.0;
         } else {

@@ -99,7 +99,7 @@ public class RouterRestCart {
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
                     }
             ))
-    public RouterFunction<ServerResponse> addItemToList (AddProductToCartUseCase addProductToCartUseCase){
+    public RouterFunction<ServerResponse> addProductToList (AddProductToCartUseCase addProductToCartUseCase){
         return route(POST("/carts/{cartId}/addProduct/{productId}"),
                 request -> productAPI.get()
                         .uri("/products/"+request.pathVariable("productId"))
@@ -128,7 +128,7 @@ public class RouterRestCart {
                                     content = @Content (schema = @Schema(implementation = Cart.class))),
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
                     }))
-    public RouterFunction<ServerResponse> removeItemFromList (RemoveProductFromCartUseCase removeProductFromCartUseCase){
+    public RouterFunction<ServerResponse> removeProductFromList (RemoveProductFromCartUseCase removeProductFromCartUseCase){
         return route(POST("/carts/{cartId}/removeProduct/{productId}"),
                 request -> productAPI.get()
                         .uri("/products/"+request.pathVariable("productId"))

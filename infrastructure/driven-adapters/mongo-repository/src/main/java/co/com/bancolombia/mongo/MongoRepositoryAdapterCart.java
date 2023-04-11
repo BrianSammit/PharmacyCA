@@ -58,14 +58,11 @@ public class MongoRepositoryAdapterCart implements CartGateway {
                         "cart with id: " + cartId)))
                 .flatMap(cartData -> {
                     var listOfItems = cartData.getProducts();
-                    listOfItems.stream().forEach(productData -> {
-                        if (productData.getId().equals(product.getId())) listOfItems.remove(productData);
-                    });
+                    listOfItems.removeIf(productData -> productData.getId().equals(product.getId()));
                     cartData.setProducts(listOfItems);
-                    cartData.setTotalPrice(
-                            listOfItems.stream().mapToDouble(ProductData::getPrice).sum());
                     return this.repository.save(cartData);
                 })
+//
                 .map(cartData -> mapper.map(cartData, Cart.class));
     }
 
