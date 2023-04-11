@@ -11,9 +11,9 @@ import reactor.core.publisher.Mono;
 
 @Repository
 @RequiredArgsConstructor
-public class MongoRepositoryAdapter implements ProductGateway {
+public class MongoRepositoryAdapterProduct implements ProductGateway {
 
-    private final MongoDBRepository repository;
+    private final MongoDBRepositoryProduct repository;
     private final ObjectMapper mapper;
 
 

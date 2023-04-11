@@ -1,6 +1,13 @@
 package co.com.bancolombia.config;
 
+import co.com.bancolombia.model.cart.gateways.CartGateway;
 import co.com.bancolombia.model.product.gateways.ProductGateway;
+import co.com.bancolombia.usecase.cart.addproducttocart.AddProductToCartUseCase;
+import co.com.bancolombia.usecase.cart.deletecart.DeleteCartUseCase;
+import co.com.bancolombia.usecase.cart.getcartbyid.GetCartByIdUseCase;
+import co.com.bancolombia.usecase.cart.removeproductfromcart.RemoveProductFromCartUseCase;
+import co.com.bancolombia.usecase.cart.savecart.SaveCartUseCase;
+import co.com.bancolombia.usecase.cart.updatecart.UpdateCartUseCase;
 import co.com.bancolombia.usecase.product.deleteproduct.DeleteProductUseCase;
 import co.com.bancolombia.usecase.product.getallproducts.GetAllProductsUseCase;
 import co.com.bancolombia.usecase.product.getproductbycategory.GetProductByCategoryUseCase;
@@ -58,5 +65,35 @@ public class UseCasesConfig {
         @Bean
         public DeleteProductUseCase deleteProductUseCase(ProductGateway gateway){
                 return new DeleteProductUseCase(gateway);
+        }
+
+        @Bean
+        public GetCartByIdUseCase getCartByIdUseCase(CartGateway gateway){
+                return new GetCartByIdUseCase(gateway);
+        }
+
+        @Bean
+        public SaveCartUseCase saveCartUseCase(CartGateway gateway){
+                return new SaveCartUseCase(gateway);
+        }
+
+        @Bean
+        public AddProductToCartUseCase addProductToCartUseCase(CartGateway gateway){
+                return new AddProductToCartUseCase(gateway);
+        }
+
+        @Bean
+        public DeleteCartUseCase deleteCartUseCase(CartGateway gateway){
+                return new DeleteCartUseCase(gateway);
+        }
+
+        @Bean
+        public UpdateCartUseCase updateCartUseCase(CartGateway gateway){
+                return new UpdateCartUseCase(gateway);
+        }
+
+        @Bean
+        public RemoveProductFromCartUseCase removeProductFromCartUseCase(CartGateway gateway){
+                return new RemoveProductFromCartUseCase(gateway);
         }
 }
