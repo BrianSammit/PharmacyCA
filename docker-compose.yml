@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+    environment:
+      SPRING_DATA_MONGODB_DATABASE: db-products
+      SPRING_DATA_MONGODB_URI: mongodb+srv://BrianSammit:073Brian@cluster0.r5ne7n0.mongodb.net/db-products?retryWrites=true&w=majority
+    links:
+      - mongodb
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
